@@ -1,0 +1,79 @@
+=TEX
+\documentclass{ffslides}
+\ffpage{25}{\numexpr 16/9}
+\usepackage{ProofPower}
+\usepackage{framed}
+
+\begin{document}
+\obeyspaces
+
+\newcommand{\hdng}{CS113 Lab \#: }
+
+\input{../src/template.tex}
+
+<<<<<<< HEAD
+
+
+\twoCol{Slide 0:a Setup}{
+=SML
+val title = "Template definitions";
+PolyML.print_depth 64;
+(* Nested parameter builder *)
+fun nas(a:'a,b:'a)(n:int):'a list list =
+  let
+    fun an(first,second,input) =
+      ((map (fn a=> first::a) input)
+      @ (map(fn a=>second::a)input))
+  in
+  if n = 1 then
+    [[a],[b]]
+  else
+    an (a, b, (nas(a,b)(n-1)))
+  end;
+val na = nas(1,0);
+=TEX
+}
+{
+=SML
+fun &&(0,_)=0 | &&(1,q)=q
+ |  &&(_,_)=2;
+fun ||(0,q)=q | ||(1,_)=1
+ |  ||(_,_)=2;
+fun !(0)=1 | !(1)=0
+ |  !(_)=2;
+fun xor(0,q)=q | xor(1,q)= !(q)
+ |  xor(_,_)= 2;
+fun uh(arr:int*int->int)(a:int list):int
+  = arr (List.nth(a,0), List.nth(a,1));
+map (uh(||))(na(2));
+map (uh(&&))(na(2));
+map (uh(xor))(na(2));
+infix &&;infix ||;infix xor; 
+=TEX
+}
+
+\twoCol{Slide 0:b Setup Image}{}{}
+\putfig{0.05}{0.12}{0.7}{../include/fig0_0.eps}
+\btext{0.76}{0.12}{0.14}{Success of the previous slide's SML code running.}
+
+=======
+
+\threeCol{Blank Three Col Page}
+{
+=C lab.c
+int main(){
+  return 0;
+}
+=TEX
+}
+{
+Test Code
+}
+{
+=ASM lab.s
+mov %eax,%ebx
+=TEX
+}
+
+>>>>>>> other
+\end{document}

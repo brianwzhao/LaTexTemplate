@@ -1,0 +1,33 @@
+
+\newcommand{\twoCol}[4][t]{
+\normalpage{\hdng #2}{
+\begin{minipage}[#1][][#1]{0.45\textwidth}
+#3
+\end{minipage}
+\hspace{0.07\textwidth}
+\begin{minipage}[#1][][#1]{0.45\textwidth}
+#4
+\end{minipage}
+}
+}
+
+\newcommand{\mpAlign}[1][t]{\def\mpAV{#1}}
+\mpAlign
+
+\newcommand{\threeCol}[5][t]{
+\normalpage{\hdng #2}{
+\begin{minipage}[#1][][\mpAV]{0.3\textwidth}
+#3
+\end{minipage}
+\hspace{0.03\textwidth}
+\begin{minipage}[t][][t]{0.3\textwidth}
+\begin{framed}
+#4
+\end{framed}
+\end{minipage}
+\hspace{0.03\textwidth}
+\begin{minipage}[#1][][\mpAV]{0.3\textwidth}
+#5
+\end{minipage}
+}
+}
