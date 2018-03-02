@@ -8,7 +8,23 @@
 \obeyspaces
 
 \newcommand{\hdng}{CS113 Lab \#: }
-
 \input{../src/template.tex}
+
+\threeCol{Blank Three Col Page}
+{
+=C lab.c
+int main(){
+  return 0;
+}
+=TEX
+}
+{
+Test Code
+}
+{
+=ASM lab.s
+mov %eax,%ebx
+=TEX
+}
 
 \end{document}
