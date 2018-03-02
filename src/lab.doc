@@ -3,6 +3,7 @@
 \ffpage{25}{\numexpr 16/9}
 \usepackage{ProofPower}
 \usepackage{framed}
+\usepackage{amsmath}
 
 \begin{document}
 \obeyspaces
