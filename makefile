@@ -31,7 +31,7 @@ pp: $(SMLEXTRCT) $(OUTDIR)/
 	@echo Running Proof Power
 	@$(LTXPRE)/pp -d hol < $(OBJDIR)/lab.pp > $(OUTDIR)/output.pp
 
-$(OUTDIR)/lab.pdf: $(OBJDIR)/lab.dvi $(OUTDIR)
+$(OUTDIR)/lab.pdf: $(OBJDIR)/lab.dvi $(OUTDIR)/
 	@echo Translate to PDF
 	@cd $(OUTDIR)
 	@dvipdf ../$(OBJDIR)/lab.dvi

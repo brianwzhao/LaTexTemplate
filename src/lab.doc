@@ -11,4 +11,13 @@
 
 \input{../src/template.tex}
 
+\threeCol{Test}
+{
+Make file usage.
+}
+{
+}
+{
+}
+
 \end{document}
