@@ -71,6 +71,10 @@ val dist_³_² = prove_rule []
   ¬µ a b·  ³ (a ² b) ¤ ³ a ± ³ b ®;
 val dist_³_²_rev = prove_rule []
   ¬µ a b·  ³ a ± ³ b ¤ ³ (a ² b) ®;
+=TEX
+}
+{
+=DUMPMORE lab.pp
 val dist_³_± = prove_rule []
   ¬µ a b·  ³ (a ± b) ¤ ³ a ² ³ b ®;
 val dist_³_±_rev = prove_rule []
@@ -79,10 +83,7 @@ val subsection = "Conversion";
 val ´_thm = ´_thm;
 val ´_thm_rev = prove_rule []
   ¬µ a b·  ³a ² b ¤ a ´ b ®;
-
 =TEX
-}
-{
 }
 
 \end{document}
