@@ -12,7 +12,7 @@
 
 \input{../src/template.tex}
 
-\twoCol{Slide 0:a Setup}{
+\twoCol{Prependix A:a Setup}{
 =SML
 val title = "Template definitions";
 PolyML.print_depth 64;
@@ -50,8 +50,16 @@ infix &&;infix ||;infix xor;
 =TEX
 }
 
-\twoCol{Slide 0:b Setup Image}{}{}
+\twoCol{Prependix A:b Setup Image}{}{}
 \putfig{0.05}{0.12}{0.7}{../include/fig0_0.eps}
 \btext{0.76}{0.12}{0.14}{Success of the previous slide's SML code running.}
+
+\twoCol{Prependix B: Proof Power Predefinitions}
+{
+=DUMP lab.pp
+=TEX
+}
+{
+}
 
 \end{document}
