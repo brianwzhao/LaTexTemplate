@@ -12,7 +12,7 @@
 
 \input{../src/template.tex}
 
-\twoCol{Slide 0:a Setup}{
+\twoCol{Prependix A:a Setup}{
 =SML
 val title = "Template definitions";
 PolyML.print_depth 64;
@@ -50,8 +50,40 @@ infix &&;infix ||;infix xor;
 =TEX
 }
 
-\twoCol{Slide 0:b Setup Image}{}{}
+\twoCol{Prependix A:b Setup Image}{}{}
 \putfig{0.05}{0.12}{0.7}{../include/fig0_0.eps}
 \btext{0.76}{0.12}{0.14}{Success of the previous slide's SML code running.}
+
+\twoCol{Prependix B: Proof Power Predefinitions}
+{
+=DUMP lab.pp
+val title = "Template Definition";
+val subsection = "Distribution";
+val dist_²_±_l = prove_rule []
+  ¬µ a b c· c ² (a ± b) ¤ (c²a) ± (c²b) ®;
+val dist_²_±_r = prove_rule []
+  ¬µ a b c· (a ± b) ² c ¤ (a²c) ± (b²c) ®;
+val dist_²_±_l_rev = prove_rule []
+  ¬µ a b c· (c²a) ± (c²b) ¤ c ² (a ± b) ®;
+val dist_²_±_r_rev = prove_rule []
+  ¬µ a b c· (a²c) ± (b²c) ¤ (a ± b) ² c ®;
+val dist_³_² = prove_rule []
+  ¬µ a b·  ³ (a ² b) ¤ ³ a ± ³ b ®;
+val dist_³_²_rev = prove_rule []
+  ¬µ a b·  ³ a ± ³ b ¤ ³ (a ² b) ®;
+=TEX
+}
+{
+=DUMPMORE lab.pp
+val dist_³_± = prove_rule []
+  ¬µ a b·  ³ (a ± b) ¤ ³ a ² ³ b ®;
+val dist_³_±_rev = prove_rule []
+  ¬µ a b·  ³ a ² ³ b ¤ ³ (a ± b) ®;
+val subsection = "Conversion";
+val ´_thm = ´_thm;
+val ´_thm_rev = prove_rule []
+  ¬µ a b·  ³a ² b ¤ a ´ b ®;
+=TEX
+}
 
 \end{document}
