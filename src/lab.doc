@@ -57,6 +57,29 @@ infix &&;infix ||;infix xor;
 \twoCol{Prependix B: Proof Power Predefinitions}
 {
 =DUMP lab.pp
+val title = "Template Definition";
+val subsection = "Distribution";
+val dist_²_±_l = prove_rule []
+  ¬µ a b c· c ² (a ± b) ¤ (c²a) ± (c²b) ®;
+val dist_²_±_r = prove_rule []
+  ¬µ a b c· (a ± b) ² c ¤ (a²c) ± (b²c) ®;
+val dist_²_±_l_rev = prove_rule []
+  ¬µ a b c· (c²a) ± (c²b) ¤ c ² (a ± b) ®;
+val dist_²_±_r_rev = prove_rule []
+  ¬µ a b c· (a²c) ± (b²c) ¤ (a ± b) ² c ®;
+val dist_³_² = prove_rule []
+  ¬µ a b·  ³ (a ² b) ¤ ³ a ± ³ b ®;
+val dist_³_²_rev = prove_rule []
+  ¬µ a b·  ³ a ± ³ b ¤ ³ (a ² b) ®;
+val dist_³_± = prove_rule []
+  ¬µ a b·  ³ (a ± b) ¤ ³ a ² ³ b ®;
+val dist_³_±_rev = prove_rule []
+  ¬µ a b·  ³ a ² ³ b ¤ ³ (a ± b) ®;
+val subsection = "Conversion";
+val ´_thm = ´_thm;
+val ´_thm_rev = prove_rule []
+  ¬µ a b·  ³a ² b ¤ a ´ b ®;
+
 =TEX
 }
 {
