@@ -1,5 +1,8 @@
 .ONESHELL:
 
+EXPORTDIR = ~/oCS/export
+EXPORTNAME = test
+
 LTXPRE = ~/pp/bin
 
 MKDIR = mkdir -p
@@ -13,7 +16,7 @@ OUTDIR = out
 
 SMLEXTRCT = $(OBJDIR)/lab.sml
 
-.PHONY: all c asm pdf sml pp
+.PHONY: all c asm pdf sml pp export
 
 all: pdf
 
@@ -31,7 +34,17 @@ pp: $(SMLEXTRCT) $(OUTDIR)/
 	@echo Running Proof Power
 	@$(LTXPRE)/pp -d hol < $(OBJDIR)/lab.pp > $(OUTDIR)/output.pp
 
-$(OUTDIR)/lab.pdf: $(OBJDIR)/lab.dvi $(OUTDIR)
+export: pdf
+	@$(MKDIR) $(EXPORTDIR)
+	$(CP) $(OUTDIR)/lab.pdf $(EXPORTDIR)/$(EXPORTNAME).pdf
+	tar zcvf ../temp ** --exclude=build --exclude=out
+	cd ..
+	$(CP) temp $(EXPORTDIR)/$(EXPORTNAME).tgz
+	rm temp
+
+#end phony
+
+$(OUTDIR)/lab.pdf: $(OBJDIR)/lab.dvi $(OUTDIR)/
 	@echo Translate to PDF
 	@cd $(OUTDIR)
 	@dvipdf ../$(OBJDIR)/lab.dvi
