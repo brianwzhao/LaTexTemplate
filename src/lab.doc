@@ -28,25 +28,34 @@ fun nas(a:'a,b:'a)(n:int):'a list list =
   else
     an (a, b, (nas(a,b)(n-1)))
   end;
-val na = nas(1,0);
+val na = nas(true,false);
 =TEX
 }
 {
 =SML
-fun &&(0,_)=0 | &&(1,q)=q
- |  &&(_,_)=2;
-fun ||(0,q)=q | ||(1,_)=1
- |  ||(_,_)=2;
-fun !(0)=1 | !(1)=0
- |  !(_)=2;
-fun xor(0,q)=q | xor(1,q)= !(q)
- |  xor(_,_)= 2;
-fun uh(arr:int*int->int)(a:int list):int
+fun &&(false,_)=false | &&(true,q)=q;
+fun ||(false,q)=q | || (true,_)=true;
+fun !(false)=true | !(true)=false;
+fun xor(false,q)=q | xor(true,q)= !(q);
+fun uh(arr:bool*bool->bool)(a:bool list):bool
   = arr (List.nth(a,0), List.nth(a,1));
 map (uh(||))(na(2));
 map (uh(&&))(na(2));
 map (uh(xor))(na(2));
 infix &&;infix ||;infix xor; 
+
+
+fun taut ([]:bool list) = true | taut(a::b) = a andalso taut(b);
+
+fun isValid(a:((bool list)->bool) list)(b:(bool list)->bool)(c:bool list) =
+  if (not(b c)) then not (taut (map (fn d:(bool list)->bool => d c) a)) else true;
+fun s1(a) = ! (List.nth(a,0)) && List.nth(a,1);
+fun s2(a) = List.nth(a,2) || List.nth(a,0);
+fun c(a) =  (List.nth(a,2));
+val something = map (isValid [s1,s2] c);
+na 5;
+something (na 3);
+
 =TEX
 }
 
