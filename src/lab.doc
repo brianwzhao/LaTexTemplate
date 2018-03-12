@@ -5,7 +5,7 @@
 \usepackage{framed}
 \usepackage{amsmath}
 
-\newcommand{\hdng}{CS113 Lab \#: }
+\newcommand{\hdng}{CS113 Lab 4: }
 
 \begin{document}
 \obeyspaces
@@ -84,6 +84,54 @@ val ´_thm = ´_thm;
 val ´_thm_rev = prove_rule []
   ¬µ a b·  ³a ² b ¤ a ´ b ®;
 =TEX
+}
+
+\twoCol{Slide 1: Example 4.3}
+{
+}
+{
+}
+
+\twoCol{Slide 2: Example 4.5}
+{
+}
+{
+}
+
+\twoCol{Slide 3: Problem 4.4}
+{
+}
+{
+}
+
+\twoCol{Slide 4: Problem 4.8}
+{
+}
+{
+}
+
+\twoCol{Slide 5: Problem 4.13}
+{
+}
+{
+}
+
+\twoCol{Slide 6: Problem 4.16}
+{
+}
+{
+}
+
+\twoCol{Slide 7: Problem 4.17}
+{
+}
+{
+}
+
+\twoCol{Slide 8: Problem 4.18}
+{
+}
+{
 }
 
 \end{document}
