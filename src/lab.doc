@@ -3,7 +3,7 @@
 \ffpage{25}{\numexpr 16/9}
 \usepackage{ProofPower}
 \usepackage{framed}
-\usepackage{amsmath}
+\usepackage{amsmath,amssymb}
 
 \newcommand{\hdng}{CS113 Lab 4: }
 
@@ -88,48 +88,117 @@ val ´_thm_rev = prove_rule []
 
 \twoCol{Slide 1: Example 4.3}
 {
+Example 4.3:\\
+Show that the argument:
+\begin{align*}
+p\to & q \\
+q\to & p \\
+\cline{1-2}
+\therefore p\lor & q
+\end{align*}
 }
 {
 }
 
 \twoCol{Slide 2: Example 4.5}
 {
+Example 4.5:(Modus Tollens or the method of denial)\\
+Show the argument:
+\begin{align*}
+p\to q\\
+\sim q\\
+\cline{1-2}
+\therefore \sim p
+\end{align*}
 }
 {
 }
 
 \twoCol{Slide 3: Problem 4.4}
 {
+Problem 4.4:\\
+Show that the argument:
+\begin{align*}
+p\to q\\
+q\\
+\cline{1-2}
+\therefore p
+\end{align*}
+is invalid.
 }
 {
 }
 
 \twoCol{Slide 4: Problem 4.8}
 {
-}
+Problem 4.8:\\
+Show that the argument:
+\begin{align*}
+p\lor q\\
+\sim p\\
+\cline{1-2}
+\therefore q
+\end{align*}
+is valid.}
 {
 }
 
 \twoCol{Slide 5: Problem 4.13}
 {
+Problem 4.13:\\
+Use symbols to write the logical form of the given argument and then use a truth table to test the argument for validity.\\
+\qi{If Tom is not on team A, then Hua is on team B.}
+\qi{If Hua is not on team B, then Tom is on team A.}
+$\therefore$ Tom is not on team A or Hua is not on team B.
 }
 {
 }
 
 \twoCol{Slide 6: Problem 4.16}
 {
+Problem 4.16:\\
+Use the valid argument forms of this section to deduce the conclusion from the premises.
+\begin{align*}
+\sim p\lor q\to r\\
+s\lor\sim q\\
+\sim t\\
+p\to t
+\sim p\land r\to\sim s\\
+\cline{1-2}
+\therefore \sim q
+\end{align*}
 }
 {
 }
 
 \twoCol{Slide 7: Problem 4.17}
 {
+Problem 4.17:\\
+Use the valid argument forms of this section to deduce the conclusion from the premise.
+\begin{align*}
+\sim p\to r\land\sim s\\
+t\to s\\
+u\to\sim p\\
+\sim w\\
+u\lor w\\
+\cline{1-2}
+\therefore \sim t\lor w
+\end{align*}
 }
 {
 }
 
 \twoCol{Slide 8: Problem 4.18}
 {
+Problem 4.18:\\
+Use the valid argument forms of this section to deduce the conclusion from the premises.
+\begin{align*}
+\sim(p\lor q)\to r\\
+\sim p\\
+\sim r\\
+\cline{1-2}
+\therefore q
+\end{align*}
 }
 {
 }
