@@ -1,0 +1,93 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+LaTeX Build Tools for CS113 and CS118
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This build tool is to assist in building a PDF via LaTeX from a document file and extracting and compiling C and ASM as well as extracting and running SML and Proof Power, all from the document file.
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SETUP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+To clone the repository use:
+  git clone https://github.com/brianwzhao/LaTexTemplate.git
+Or you can download it from:
+  https://github.com/brianwzhao/LaTexTemplate
+
+Once you've aquired the repository, there are a few things to be aware of:
+ 1. Make sure you have the pp latex tools in `~/pp/bin` otherwise you will need to update the LTXPRE variable to instead point to the correct path
+ 2. Update the EXPORTDIR variable to the folder into which you want to move your final PDF and .tgz archive to.
+ 3. Update EXPORTNAME to the name that you want the PDF and .tgz archive to be named.
+
+Currently the .gitignore is setup to ignore the `build` and `out` directories which are set as the OBJDIR and OUTDIR respectively, which contain intermediate build files and the output of the builds/execution respectively.
+
+The SRCDIR variable will contain the path to the lab.doc file which is (currently) hard coded as the file from which the makefile will extract from to do all build actions.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+USAGE - lab.doc
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Put LaTeX into src/lab.doc
+Use the tags to start code sections for the first time:
+ ASM         - `=ASM lab.s`
+ C           - `=C lab.c`
+ SML         - `=SML`
+ Proof Power - `=DUMP lab.pp`
+And for subsequent occurences:
+ ASM         - `=MOREASM lab.s`
+ C           - `=MOREC lab.c`
+ SML         - `=MORESML`
+ Proof Power - `=DUMPMORE lab.pp`
+
+At the end of the blocks use `=TEX` to return to LaTeX interpretation.
+
+Note: All the occurences of inline code are appended in the order they show up.  As such the entire concatenation of all the occurences should be a valid file for whatever you are doing.
+
++---------------------------------------+
+| Example:                              |
+| =C lab.c                              |
+| int main(){                           |
+|   int i=1;                            |
+| =TEX                                  |
+|                                       |
+| =MOREC  lab.c                         |
+|   return i;                           |
+| }                                     |
+| =TEX                                  |
+|                                       |
+| The above example would simply        |
+| extract into a file called `lab.c`    |
+| that contains:                        |
+|   int main(){                         |
+|     int i=1;                          |
+|     return i;                         |
+|   }                                   |
++---------------------------------------+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+USAGE - make
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+This section will list the `make` command and then what it doesn, it the format:
+ <command> - <description>
+Note: The commands will have "`" around them if you are reading in plaintext
+
+ `all` - calls the pdf build routine (You can add the other commands as "prerequisites" to have them be run as well)  This can also be called by simply calling `make` with no arguments
+ `pdf` - Build the PDF from the lab.doc that resides in the source folder. Default: src\lab.doc
+ `c`   - Build C program from lab.c which will be extracted from lab.doc
+           The program will be built with the `-g` option for debugging
+           The output executable will be called `labc` and will be in the output directory.  Default: out\labc
+ `asm` - Build ASM Program from lab.s which will be extracted from lab.doc
+           The object file will be made with the `-g` option for debugging
+           The output executable will be called `labasm` and will be in the output directory. Default: out\labasm
+ `sml` - Execute SML via command `poly` with the output piped into the file `output.sml` in the output directory. Default: out\output.sml
+            The SML to be executed will be extracted from lab.doc into lab.sml
+ `pp`  - Execute Proof Power via command `pp -d hol` with the output piped into the file `output.pp` in the output direcory.  Default: out\output.pp
+           The Proof Power to be executed will be extracted from lab.doc into lab.pp
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+Notes - Mildly Important
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+The PDF build script will use the build folder as the root directory so to include anything in the latex build you need to first move up a directory into the root directory before moving into the `src` folder to include files.
+  E.G. You have `lab.doc` and `template.tex` inside the src folder, so to include the template in `lab.doc` you refer to it as `../src/template.tex`
+
+Known Bug:
+  If the LaTeX build has a problem you have to type `x <enter>` twice to exit the latex build and have the make file properly "fail" the build instruction
