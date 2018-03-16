@@ -28,31 +28,57 @@ fun nas(a:'a,b:'a)(n:int):'a list list =
   else
     an (a, b, (nas(a,b)(n-1)))
   end;
-val na = nas(1,0);
+val na = nas(true,false);
 =TEX
 }
 {
 =SML
-fun &&(0,_)=0 | &&(1,q)=q
- |  &&(_,_)=2;
-fun ||(0,q)=q | ||(1,_)=1
- |  ||(_,_)=2;
-fun !(0)=1 | !(1)=0
- |  !(_)=2;
-fun xor(0,q)=q | xor(1,q)= !(q)
- |  xor(_,_)= 2;
-fun uh(arr:int*int->int)(a:int list):int
+fun &&(false,_)=false | &&(true,q)=q;
+fun ||(false,q)=q | || (true,_)=true;
+fun !(false)=true | !(true)=false;
+fun xor(false,q)=q | xor(true,q)= !(q);
+fun uh(arr:bool*bool->bool)(a:bool list):bool
   = arr (List.nth(a,0), List.nth(a,1));
+val title = "Test Cases Slide A:a";
 map (uh(||))(na(2));
 map (uh(&&))(na(2));
 map (uh(xor))(na(2));
 infix &&;infix ||;infix xor; 
 =TEX
 }
+\putfig{0.4}{0.75}{0.5}{../include/figA_a.eps}
+\btext{0.76}{0.6}{0.14}{Output of the previous functions}
 
-\twoCol{Prependix A:b Setup Image}{}{}
-\putfig{0.05}{0.12}{0.7}{../include/fig0_0.eps}
-\btext{0.76}{0.12}{0.14}{Success of the previous slide's SML code running.}
+\twoCol{Prependix A:b SML "Proof" check}{
+=SML
+val title = "Slide A:c More Template";
+fun taut ([]:bool list) = true | taut(a::b) = a andalso taut(b);
+fun caseCheck(a:((bool list)->bool) list)
+  (b:(bool list)->bool)(c:bool list) =
+    if (not(b c))
+      then
+        not (taut (map (fn d:(bool list)->bool => d c) a))
+      else true;
+fun isValid(prop:(bool list->bool) list)(conc:(bool list->bool))
+  = taut(map (caseCheck prop conc) (na 5));
+=TEX
+}
+{
+=SML
+fun p(a:bool list) = List.nth(a,0);
+fun q(a:bool list) = List.nth(a,1);
+fun r(a:bool list) = List.nth(a,2);
+fun s(a:bool list) = List.nth(a,3);
+fun t(a:bool list) = List.nth(a,4);
+val title = "Test Cases Slide A:b";
+fun s1(a) = ! (p a) && (q a);
+fun s2(a) = (r a)|| (p a);
+isValid [s1,s2] r;
+isValid [s1,s2] p;
+=TEX
+}
+\putfig{0.05}{0.69}{0.4}{../include/figA_b.eps}
+\btext{0.5}{0.7}{0.2}{With the assumptions $\sim p \land q $ and $r \lor p$ we see that $r$ is a valid conclusion and $p$ is not.}
 
 \twoCol{Prependix B: Proof Power Predefinitions}
 {
