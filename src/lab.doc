@@ -23,12 +23,12 @@ fun nas(a:'a,b:'a)(n:int):'a list list =
       ((map (fn a=> first::a) input)
       @ (map(fn a=>second::a)input))
   in
-  if n = 1 then
-    [[a],[b]]
-  else
-    an (a, b, (nas(a,b)(n-1)))
+  if n = 1 then [[a],[b]]
+  else an (a, b, (nas(a,b)(n-1)))
   end;
 val na = nas(true,false);
+fun uh(arr:bool*bool->bool)(a:bool list):bool
+  = arr (List.nth(a,0), List.nth(a,1));
 =TEX
 }
 {
@@ -37,17 +37,17 @@ fun &&(false,_)=false | &&(true,q)=q;
 fun ||(false,q)=q | || (true,_)=true;
 fun !(false)=true | !(true)=false;
 fun xor(false,q)=q | xor(true,q)= !(q);
-fun uh(arr:bool*bool->bool)(a:bool list):bool
-  = arr (List.nth(a,0), List.nth(a,1));
+fun cond(p,q) = ||(! p,q);
 val title = "Test Cases Slide A:a";
 map (uh(||))(na(2));
 map (uh(&&))(na(2));
 map (uh(xor))(na(2));
-infix &&;infix ||;infix xor; 
+map (uh(cond))(na(2));
+infix &&; infix ||; infix xor; infix cond;
 =TEX
 }
-\putfig{0.4}{0.75}{0.5}{../include/figA_a.eps}
-\btext{0.76}{0.6}{0.14}{Output of the previous functions}
+\putfig{0.5}{0.75}{0.4}{../include/figA_a.eps}
+\btext{0.85}{0.63}{0.1}{Output of the previous functions}
 
 \twoCol{Prependix A:b SML "Proof" check}{
 =SML
