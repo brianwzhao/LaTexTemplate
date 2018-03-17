@@ -112,6 +112,24 @@ val ´_thm_rev = prove_rule []
 =TEX
 }
 
+\twoCol{Prependix B:b Proof Power Predefinitions}
+{
+=DUMPMORE lab.pp
+val premise = asm_rule;
+val modus_ponens = ´_elim;
+val modus_tollens = modus_tollens_rule;
+val disjunctive_addition = ²_right_intro;
+val conjunctive_addition = ±_intro;
+val conjunctive_simplification = ±_right_elim;
+val disjunctive_syllogism = ²_cancel_rule;
+val hypothetical_syllogism = ´_trans_rule;
+val double_negation = ³_³_elim;
+=TEX
+}
+{
+Only redefining things so no output to show.
+}
+
 \twoCol{Slide 1: Example 4.3}
 {
 Example 4.3:\\
