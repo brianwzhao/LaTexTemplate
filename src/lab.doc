@@ -135,10 +135,10 @@ Only redefining things so no output to show.
 Example 4.3:\\
 Show that the argument:
 \begin{align*}
-p\to & q \\
-q\to & p \\
+&p\to q \\
+&q\to p \\
 \cline{1-2}
-\therefore p\lor & q
+&\therefore p\lor q
 \end{align*}
 is invalid.
 }
@@ -150,10 +150,10 @@ is invalid.
 Example 4.5:(Modus Tollens or the method of denial)\\
 Show the argument:
 \begin{align*}
-p\to q\\
-\sim q\\
+&p\to q\\
+&\sim q\\
 \cline{1-2}
-\therefore \sim p
+&\therefore \sim p
 \end{align*}
 is valid.
 }
@@ -165,10 +165,10 @@ is valid.
 Problem 4.4:\\
 Show that the argument:
 \begin{align*}
-p\to q\\
-q\\
+&p\to q\\
+&q\\
 \cline{1-2}
-\therefore p
+&\therefore p
 \end{align*}
 is invalid.
 }
@@ -180,10 +180,10 @@ is invalid.
 Problem 4.8:\\
 Show that the argument:
 \begin{align*}
-p\lor q\\
-\sim p\\
+&p\lor q\\
+&\sim p\\
 \cline{1-2}
-\therefore q
+&\therefore q
 \end{align*}
 is valid.
 }
@@ -206,13 +206,13 @@ $\therefore$ Tom is not on team A or Hua is not on team B.
 Problem 4.16:\\
 Use the valid argument forms of this section to deduce the conclusion from the premises.
 \begin{align*}
-\sim p\lor q\to r\\
-s\lor\sim q\\
-\sim t\\
-p\to t
-\sim p\land r\to\sim s\\
+&\sim p\lor q\to r\\
+&s\lor\sim q\\
+&\sim t\\
+&p\to t\\
+&\sim p\land r\to\sim s\\
 \cline{1-2}
-\therefore \sim q
+&\therefore \sim q
 \end{align*}
 }
 {
@@ -223,13 +223,13 @@ p\to t
 Problem 4.17:\\
 Use the valid argument forms of this section to deduce the conclusion from the premise.
 \begin{align*}
-\sim p\to r\land\sim s\\
-t\to s\\
-u\to\sim p\\
-\sim w\\
-u\lor w\\
+&\sim p\to r\land\sim s\\
+&t\to s\\
+&u\to\sim p\\
+&\sim w\\
+&u\lor w\\
 \cline{1-2}
-\therefore \sim t\lor w
+&\therefore \sim t\lor w
 \end{align*}
 }
 {
@@ -240,11 +240,11 @@ u\lor w\\
 Problem 4.18:\\
 Use the valid argument forms of this section to deduce the conclusion from the premises.
 \begin{align*}
-\sim(p\lor q)\to r\\
-\sim p\\
-\sim r\\
+&\sim(p\lor q)\to r\\
+&\sim p\\
+&\sim r\\
 \cline{1-2}
-\therefore q
+&\therefore q
 \end{align*}
 }
 {
