@@ -52,7 +52,9 @@ fun inOrder(x) = case x of elems [] => true
  | elems(x::[])=>true;
 
 fun sort(elems(x::xs)) =
-  merge(elems [x],sort(xs));
+  if(inOrder(merge(elems [x],sort(elems xs)))) then merge(elems [x],sort(elems xs)) else sort(merge(elems [x],sort(elems xs)))
+ | sort(elems[]) = elems [];
+
 
 val title = "Template definitions";
 PolyML.print_depth 64;
