@@ -14,6 +14,46 @@
 
 \twoCol{Prependix A:a Setup}{
 =SML
+datatype SetElement = NoElem | Int of int| String of string | Set of set
+ and set = elems of SetElement list;
+
+fun greaterSet(x:set,y:set) = false;
+
+fun greaterElem(x:SetElement,y:SetElement) = (case x of
+    Int x => (
+      case y of Int y => x>y
+        | _=> true)
+  | String x => (
+      case y of Int y => false
+        | String y => x>y
+        | _ => true)
+  | Set x =>(
+      case y of NoElem => true
+        | Set y => greaterSet(x,y)
+        | _ => false)
+  | _ => false);
+
+fun setArray(x) = case x of
+  elems x => x;
+
+fun merge(x:set, y:set) = case x of
+  elems [] => y
+ | elems (x::xs) => ( case y of
+    elems [] => elems(x::xs)
+   | elems(y::ys) => if greaterElem(x,y)
+      then elems (y::(setArray (merge(elems (x::xs),elems ys))))
+      else if greaterElem(y,x) then
+        elems (x::(setArray (merge(elems xs,elems (y::ys)))))
+        else elems (x::(setArray (merge(elems xs,elems ys))))
+   );
+
+fun inOrder(x) = case x of elems [] => true
+ | elems(x::xs::xss)=> greaterElem(xs,x) andalso (inOrder(elems(xs::xss)))
+ | elems(x::[])=>true;
+
+fun sort(elems(x::xs)) =
+  merge(elems [x],sort(xs));
+
 val title = "Template definitions";
 PolyML.print_depth 64;
 (* Nested parameter builder *)
