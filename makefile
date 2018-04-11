@@ -1,7 +1,7 @@
 .ONESHELL:
 
 EXPORTDIR = ~/oCS/export
-EXPORTNAME = CS113
+EXPORTNAME = CS113Lab6
 
 LTXPRE = ~/pp/bin
 

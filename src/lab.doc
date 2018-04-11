@@ -5,7 +5,7 @@
 \usepackage{framed}
 \usepackage{amsmath}
 
-\newcommand{\hdng}{CS113 Lab \#: }
+\newcommand{\hdng}{CS113 Lab 6: }
 
 \begin{document}
 \obeyspaces
@@ -128,6 +128,90 @@ val double_negation = ³_³_elim;
 }
 {
 Only redefining things so no output to show.
+}
+
+\twoCol{Slide 1: Example 12.4}
+{
+}
+{
+}
+
+\twoCol{Slide 2: Example 12.6a}
+{
+}
+{
+}
+
+\twoCol{Slide 3: Example 12.10}
+{
+}
+{
+}
+
+\twoCol{Slide 4: Example 12.12}
+{
+}
+{
+}
+
+\twoCol{Slide 5: Example 12.13}
+{
+}
+{
+}
+
+\twoCol{Slide 6: Problem 12.3}
+{
+}
+{
+}
+
+\twoCol{Slide 7: Problem 12.4}
+{
+}
+{
+}
+
+\twoCol{Slide 8: Problem 12.5(a,e,g,j)}
+{
+}
+{
+}
+
+\twoCol{Slide 9: Problem 12.6}
+{
+}
+{
+}
+
+\twoCol{Slide 10: Problem 12.8}
+{
+}
+{
+}
+
+\twoCol{Slide 11: Problem 12.9}
+{
+}
+{
+}
+
+\twoCol{Slide 12: Problem 12.12}
+{
+}
+{
+}
+
+\twoCol{Slide 13: Problem 12.14}
+{
+}
+{
+}
+
+\twoCol{Slide: Problem 12.15}
+{
+}
+{
 }
 
 \end{document}
