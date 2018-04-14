@@ -14,169 +14,106 @@
 
 \twoCol{Prependix A:a Setup}{
 =SML
-datatype SetElement = NoElem | Int of int| String of string | Set of set | Product of SetElement*SetElement
+PolyML.print_depth 64;
+datatype SetElement = NoElem
+ | Int of int
+ | String of string
+ | Set of set
+ | Product of SetElement*SetElement
  and set = elems of SetElement list;
+fun greaterElem(x:SetElement,y:SetElement) =
+let
+  fun isEqual(x:SetElement,y:SetElement) =
+    not (greaterElem(x,y) orelse greaterElem(y,x));
+in
+  let
+    fun greaterSet(elems(x::xs),elems(y::ys)) =
+      if isEqual (x,y)
+=TEX
+}
+{
+=SML
+        then greaterSet(elems xs,elems ys)
+        else greaterElem(x,y)
+    | greaterSet(elems[],_) = false
+    | greaterSet(_,elems []) = true;
+  in
+   (case x of
+      Int x => (
+        case y of Int y => x>y
+          | _=> false)
+    | String x => (
+        case y of Int y => true
+          | String y => x>y
+          | _ => false)
+=TEX
+}
 
-fun greaterSet(x:set,y:set) = false;
+\twoCol{Prependix A:b Setup}
+{
+=SML
+    | Set x =>(
+        case y of NoElem => false
+          | Set y => greaterSet(x,y)
+          | _ => true)
+    | Product (a,b) =>(
+        case y of NoElem => false
+          | Product (c,d) =>
+              (if isEqual(a,c)
+                then greaterElem(b,d)
+                else greaterElem(a,c))
+          | _ => true)
+    | _ => true)
+  end
+end;
+=TEX
+}
+{
+=SML
+fun isEqual(x:SetElement,y:SetElement) =
+  not (greaterElem(x,y) orelse greaterElem(y,x));
 
-fun greaterElem(x:SetElement,y:SetElement) = (case x of
-    Int x => (
-      case y of Int y => x>y
-        | _=> false)
-  | String x => (
-      case y of Int y => true
-        | String y => x>y
-        | _ => false)
-  | Set x =>(
-      case y of NoElem => false
-        | Set y => greaterSet(x,y)
-        | _ => true)
-  | Product (a,b) =>(
-      case y of NoElem => false
-        | Product (c,d) => (if greaterElem(a,c) orelse greaterElem(c,a)
-            then greaterElem(a,c)
-            else greaterElem(b,d))
-        | _ => true)
-  | _ => true);
+fun greaterSet(elems(x::xs),elems(y::ys)) =
+  if isEqual (x,y)
+    then greaterSet(elems xs,elems ys)
+    else greaterElem(x,y)
+ | greaterSet(elems[],_) = false
+ | greaterSet(_,elems []) = true;
+=TEX
+}
 
-fun setArray(x) = case x of
-  elems x => x;
+\twoCol{Prependix A:c Setup}
+{
+=SML
+fun setArray(elems x) = x;
 
 fun merge(x:set, y:set) = case x of
    elems [] => y
  | elems (x::xs) => ( case y of
      elems [] => elems(x::xs)
    | elems(y::ys) => if greaterElem(x,y)
-       then elems (y::(setArray (merge(elems (x::xs),elems ys))))
-        else if greaterElem(y,x) then
-          elems (x::(setArray (merge(elems xs,elems (y::ys)))))
-          else elems (x::(setArray (merge(elems xs,elems ys))))
+      then elems (y::(setArray
+        (merge(elems (x::xs),elems ys))))
+      else if greaterElem(y,x)
+        then
+          elems (x::(setArray
+            (merge(elems xs,elems (y::ys)))))
+        else elems (x::(setArray (merge(elems xs,elems ys))))
    );
-
+=TEX
+}
+{
+=SML
 fun inOrder(x) = case x of elems [] => true
  | elems(x::xs::xss)=> greaterElem(xs,x)
     andalso (inOrder(elems(xs::xss)))
  | elems(x::[])=>true;
 
-fun sort(elems(x::xs)) =
-  merge(elems [x],sort(elems xs))
+fun sort(elems(x::xs)) = (case x of
+  Set x =>merge(elems[Set(sort x)],sort(elems xs))
+ | _ => merge(elems [x],sort(elems xs)))
  | sort(elems[]) = elems [];
-
-
-val title = "Template definitions";
-PolyML.print_depth 64;
-(* Nested parameter builder *)
-fun nas(a:'a,b:'a)(n:int):'a list list =
-  let
-    fun an(first,second,input) =
-      ((map (fn a=> first::a) input)
-      @ (map(fn a=>second::a)input))
-  in
-  if n = 1 then [[a],[b]]
-  else an (a, b, (nas(a,b)(n-1)))
-  end;
-val na = nas(true,false);
-fun uh(arr:bool*bool->bool)(a:bool list):bool
-  = arr (List.nth(a,0), List.nth(a,1));
 =TEX
-}
-{
-=SML
-fun &&(false,_)=false | &&(true,q)=q;
-fun ||(false,q)=q | || (true,_)=true;
-fun !(false)=true | !(true)=false;
-fun xor(false,q)=q | xor(true,q)= !(q);
-fun cond(p,q) = ||(! p,q);
-val title = "Test Cases Slide A:a";
-map (uh(||))(na(2));
-map (uh(&&))(na(2));
-map (uh(xor))(na(2));
-map (uh(cond))(na(2));
-infix &&; infix ||; infix xor; infix cond;
-=TEX
-}
-\putfig{0.5}{0.75}{0.4}{../include/figA_a.eps}
-\btext{0.85}{0.63}{0.1}{Output of the previous functions}
-
-\twoCol{Prependix A:b SML "Proof" check}{
-=SML
-val title = "Slide A:c More Template";
-fun taut ([]:bool list) = true | taut(a::b) = a andalso taut(b);
-fun caseCheck(a:((bool list)->bool) list)
-  (b:(bool list)->bool)(c:bool list) =
-    if (not(b c))
-      then
-        not (taut (map (fn d:(bool list)->bool => d c) a))
-      else true;
-fun isValid(prop:(bool list->bool) list)(conc:(bool list->bool))
-  = taut(map (caseCheck prop conc) (na 5));
-=TEX
-}
-{
-=SML
-fun p(a:bool list) = List.nth(a,0);
-fun q(a:bool list) = List.nth(a,1);
-fun r(a:bool list) = List.nth(a,2);
-fun s(a:bool list) = List.nth(a,3);
-fun t(a:bool list) = List.nth(a,4);
-val title = "Test Cases Slide A:b";
-fun s1(a) = ! (p a) && (q a);
-fun s2(a) = (r a)|| (p a);
-isValid [s1,s2] r;
-isValid [s1,s2] p;
-=TEX
-}
-\putfig{0.05}{0.69}{0.4}{../include/figA_b.eps}
-\btext{0.5}{0.7}{0.2}{With the assumptions $\sim p \land q $ and $r \lor p$ we see that $r$ is a valid conclusion and $p$ is not.}
-
-\twoCol{Prependix B: Proof Power Predefinitions}
-{
-=DUMP lab.pp
-val title = "Template Definition";
-val subsection = "Distribution";
-val dist_²_±_l = prove_rule []
-  ¬µ a b c· c ² (a ± b) ¤ (c²a) ± (c²b) ®;
-val dist_²_±_r = prove_rule []
-  ¬µ a b c· (a ± b) ² c ¤ (a²c) ± (b²c) ®;
-val dist_²_±_l_rev = prove_rule []
-  ¬µ a b c· (c²a) ± (c²b) ¤ c ² (a ± b) ®;
-val dist_²_±_r_rev = prove_rule []
-  ¬µ a b c· (a²c) ± (b²c) ¤ (a ± b) ² c ®;
-val dist_³_² = prove_rule []
-  ¬µ a b·  ³ (a ² b) ¤ ³ a ± ³ b ®;
-val dist_³_²_rev = prove_rule []
-  ¬µ a b·  ³ a ± ³ b ¤ ³ (a ² b) ®;
-=TEX
-}
-{
-=DUMPMORE lab.pp
-val dist_³_± = prove_rule []
-  ¬µ a b·  ³ (a ± b) ¤ ³ a ² ³ b ®;
-val dist_³_±_rev = prove_rule []
-  ¬µ a b·  ³ a ² ³ b ¤ ³ (a ± b) ®;
-val subsection = "Conversion";
-val ´_thm = ´_thm;
-val ´_thm_rev = prove_rule []
-  ¬µ a b·  ³a ² b ¤ a ´ b ®;
-=TEX
-}
-
-\twoCol{Prependix B:b Proof Power Predefinitions}
-{
-=DUMPMORE lab.pp
-val premise = asm_rule;
-val modus_ponens = ´_elim;
-val modus_tollens = modus_tollens_rule;
-val disjunctive_addition = ²_right_intro;
-val conjunctive_addition = ±_intro;
-val conjunctive_simplification = ±_right_elim;
-val disjunctive_syllogism = ²_cancel_rule;
-val hypothetical_syllogism = ´_trans_rule;
-val double_negation = ³_³_elim;
-=TEX
-}
-{
-Only redefining things so no output to show.
 }
 
 \twoCol{Slide 1: Example 12.4}
