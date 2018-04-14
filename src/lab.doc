@@ -116,6 +116,124 @@ fun sort(elems(x::xs)) = (case x of
 =TEX
 }
 
+\twoCol{Slide B:a Operations}
+{
+=SML
+fun elementOf(x, elems(y::ys)) =
+  isEqual(x,y) orelse elementOf(x,elems ys)
+ | elementOf(x,elems []) = false;
+fun subsetEq(elems(x::xs),elems(y::ys)) =
+  if isEqual(x,y)
+    then subsetEq(elems xs,elems ys)
+    else if greaterElem(x,y)
+      then subsetEq(elems(x::xs),elems ys)
+      else false
+ | subsetEq(elems [],_) = true
+ | subsetEq(_,_)=false;
+fun subsetProp(x,y) = subsetEq(x,y) andalso
+  not (subsetEq(y,x));
+fun setEqual(x,y) = subsetEq(x,y) andalso
+  subsetEq(y,x);
+=TEX
+}
+{
+=SML
+fun intersect(elems(x::xs),elems(y::ys)) =
+  if isEqual(x,y)
+    then elems(x::(setArray(intersect(elems xs,elems ys))))
+    else if greaterElem(x,y)
+      then intersect(elems(x::xs),elems ys)
+      else intersect(elems xs,elems(y::ys))
+ | intersect(_,_) = elems [];
+fun union(elems(x::xs),elems(y::ys)) =
+  if isEqual(x,y)
+    then elems(x::(setArray(union(elems xs,elems ys))))
+    else if greaterElem(x,y)
+      then elems(y::(setArray(union(elems(x::xs),elems ys))))
+      else elems(x::(setArray(union(elems xs,elems(y::ys)))))
+ | union(elems [],y) = y
+ | union(x,elems []) = x;
+=TEX
+}
+
+\twoCol{Prependix B:b Operations}
+{
+=SML
+fun setMinus(elems(x::xs),elems(y::ys)) =
+  if greaterElem(x,y)
+    then setMinus(elems(x::xs),elems ys)
+    else if greaterElem(y,x)
+      then elems(x::(setArray
+        (setMinus(elems xs,elems(y::ys)))))
+      else setMinus(elems xs,elems ys)
+ | setMinus(x,_) = x;
+fun symDiff(elems(x::xs),elems(y::ys)) =
+  if greaterElem(x,y)
+    then elems(y::(setArray(symDiff(elems(x::xs),elems ys))))
+    else if greaterElem(y,x)
+      then elems(x::(setArray(symDiff(elems xs,elems(y::ys)))))
+      else symDiff(elems xs,elems ys)
+ | symDiff(elems [],y) = y | symDiff(x,elems []) = x;
+=TEX
+}
+{
+=SML
+fun powSet(elems(x::xss)) =
+  let
+    fun again(a,elems(b::bs)) = (case b of
+      Set(elems b) =>
+        elems((Set(elems (a::b)))::
+          (setArray(again(a,elems bs))))
+       | _ => again(a,elems bs))
+     | again(a,elems []) = elems [];
+  in
+    sort(merge(
+      powSet(elems xss),
+      again(x,powSet(elems xss))))
+end
+   | powSet(elems []) = elems[Set(elems [])];
+=TEX
+}
+
+\twoCol{Prependix B:c Operations}
+{
+=SML
+fun cartProd(elems(x::xs),elems(y::ys)) =
+  elems((Product(x,y))::
+    (setArray(merge(
+      cartProd(elems(x::xs),elems ys),
+      (cartProd(elems xs,elems(y::ys)))))))
+ | cartProd(_,_) = elems [];
+=TEX
+}
+
+\twoCol{Prependix C:a Test}
+{
+=SML
+val a = elems[Int 1,Int 2];
+val b = elems[Int 1,Int 3];
+val c = elems[Int 1];
+=TEX
+}
+{
+=SML
+elementOf(Int 2,a);
+elementOf(Int 2,b);
+subsetEq(a,a);
+subsetEq(a,b);
+subsetProp(a,a);
+subsetProp(c,a);
+setEqual(a,a);
+setEqual(a,b);
+cartProd(a,b);
+intersect(a,b);
+union(a,b);
+setMinus(a,b);
+symDiff(a,b);
+powSet(a);
+=TEX
+}
+
 \twoCol{Slide 1: Example 12.4}
 {
 Example 12.4:\\
