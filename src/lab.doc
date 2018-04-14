@@ -152,11 +152,10 @@ Find $A\triangle B$ if $A=\{1,3,5\}$ and $B = \{1,2,3\}$.
 {
 }
 
-\twoCol{Slide 5: Example 12.13}
+\twoCol{Slide 5: Example 12.13b}
 {
 Example 12.13:\\
 Let $A = \{x,y\}$, $B = \{1,2,3\}$, and $C = \{a,b\}$. Find\\
-a) $A\times B\times C$\\
 b) $(A\times B)\times C$
 }
 {
