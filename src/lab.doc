@@ -207,12 +207,39 @@ fun cartProd(elems(x::xs),elems(y::ys)) =
 =TEX
 }
 
+\twoCol{Prependix B:d Pretty Print}
+{
+=SML
+fun toString(elems(x::xs)) =
+  let
+    fun toStr(x) = case x of
+       Int x => Int.toString x
+     | String x => x
+     | Set x => toString(x)
+     | Product (a,b) => "("^
+        (toStr a)^","^(toStr b)^")"
+     | _ => "";
+    val next = toString(elems xs);
+  in
+    if xs = []
+      then "{" ^ (toStr(x)) ^
+        (substring(next,1,(size next)-1))
+      else "{" ^ (toStr(x)) ^ "," ^
+        (substring(next,1,(size next)-1))
+  end
+ | toString(elems []) = "{}";
+=TEX
+}
+{
+}
+
 \twoCol{Prependix C:a Test}
 {
 =SML
-val a = elems[Int 1,Int 2];
-val b = elems[Int 1,Int 3];
+val a = elems[Int 1,Int 2,String "Hi"];
+val b = elems[Int 1,Int 3,String "Bye"];
 val c = elems[Int 1];
+toString a;
 =TEX
 }
 {
@@ -225,12 +252,13 @@ subsetProp(a,a);
 subsetProp(c,a);
 setEqual(a,a);
 setEqual(a,b);
-cartProd(a,b);
+toString(cartProd(a,b));
 intersect(a,b);
 union(a,b);
 setMinus(a,b);
 symDiff(a,b);
-powSet(a);
+toString (powSet(a));
+print(toString(powSet(cartProd(a,b)))^"\n\n");
 =TEX
 }
 
