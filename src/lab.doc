@@ -157,7 +157,7 @@ fun stringSet(x::xs) =
 
 
 
-\twoCol{Slide B:a Operations}
+\twoCol{Prependix B:a Operations}
 {
 =SML
 fun elementOf(x, elems(y::ys)) =
@@ -242,10 +242,22 @@ fun cartProd(elems(x::xs),elems(y::ys)) =
 =TEX
 }
 
-\twoCol{Prependix C:a Test}
+\twoCol{Prependix C:a Relation Operation}
 {
 =SML
-val a = merge(intSet [1,2],stringSet ["Hi"]);
+fun relation(domain:set)(range:set)
+ (rule:SetElement->bool) = elems(List.filter
+  rule
+  (setArray(cartProd(domain,range))));
+=TEX
+}
+{
+}
+
+\twoCol{Prependix Z:a Test}
+{
+=SML
+val a = merge(intSet [1,2,3,4],stringSet ["Hi"]);
 val b = elems[Int 1,Int 3,String "Bye"];
 val c = elems[Int 1];
 toString a;
@@ -253,21 +265,9 @@ toString a;
 }
 {
 =SML
-elementOf(Int 2,a);
-elementOf(Int 2,b);
-subsetEq(a,a);
-subsetEq(a,b);
-subsetProp(a,a);
-subsetProp(c,a);
-setEqual(a,a);
-setEqual(a,b);
-toString(cartProd(a,b));
-intersect(a,b);
-union(a,b);
-setMinus(a,b);
-symDiff(a,b);
-toString (powSet(a));
-print(toString(powSet(cartProd(a,b)))^"\n\n");
+fun greater(Product(Int a,Int b)) = a>b
+ | greater(_) = false;
+relation a b greater;
 =TEX
 }
 
