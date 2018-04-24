@@ -5,7 +5,7 @@
 \usepackage{framed}
 \usepackage{amsmath}
 
-\newcommand{\hdng}{CS113 Lab \#: }
+\newcommand{\hdng}{CS113 Lab 7: }
 
 \begin{document}
 \obeyspaces
