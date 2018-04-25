@@ -152,6 +152,9 @@ fun stringSet(x::xs) =
 }
 {
 =SML
+fun cardinality(elems (x::xs)) =
+  1+cardinality(elems xs)
+ | cardinality(elems []) = 0;
 =TEX
 }
 
@@ -249,6 +252,47 @@ fun relation(domain:set)(range:set)
  (rule:SetElement->bool) = elems(List.filter
   rule
   (setArray(cartProd(domain,range))));
+fun inverse(elems((Product(x,y))::xs)) =
+  merge(elems[Product(y,x)],inverse(elems xs))
+ | inverse(_) = elems[];
+fun domain(elems((Product(x,y))::xs)) =
+  merge(elems[x],domain(elems xs))
+ | domain(_) = elems [];
+fun range(x) = domain(inverse x);
+=TEX
+}
+{
+=SML
+fun isFunction d (x) =
+let
+  fun uniqueX(elems((Product(a,b))::(Product(c,d))::x)) =
+      not(isEqual(a,c)) andalso
+      uniqueX(elems(Product(c,d)::x))
+   | uniqueX(elems[Product(a,b)]) = true
+   | uniqueX(_) = false;
+in
+  (setEqual(d, domain x)) andalso uniqueX(x)
+end;
+=TEX
+}
+
+\twoCol{Prependix C:b Relation Operations}
+{
+=SML
+fun compose (elems(x::xs)) y =
+let
+  fun single (Product(a,b))
+   (elems((Product(c,d)::ys))) =
+    if b=c then
+    merge(elems[Product(a,d)],
+      single(Product(a,b))(elems ys))
+    else
+      single(Product(a,b))(elems ys)
+   | single(_)(_) = elems[];
+in
+  merge(single x y,compose (elems xs) y)
+end
+ | compose(_)(_) = elems[];
 =TEX
 }
 {
@@ -257,17 +301,20 @@ fun relation(domain:set)(range:set)
 \twoCol{Prependix Z:a Test}
 {
 =SML
-val a = merge(intSet [1,2,3,4],stringSet ["Hi"]);
+val a = intSet [1,2,3,4,5,6];
 val b = elems[Int 1,Int 3,String "Bye"];
-val c = elems[Int 1];
+val c = intSet[2,6];
 toString a;
 =TEX
 }
 {
 =SML
-fun greater(Product(Int a,Int b)) = a>b
+fun greater(Product(Int a,Int b)) = a <= 2*b
  | greater(_) = false;
-relation a b greater;
+val d = relation a b greater;
+isFunction a d;
+relation c b greater;
+toString(compose it d);
 =TEX
 }
 
