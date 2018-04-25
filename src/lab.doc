@@ -132,48 +132,88 @@ Only redefining things so no output to show.
 
 \twoCol{Slide 1: Example 15.5}
 {
+Example 15.5\\
+(a) Let $A=\{2,3,4\}$ and $B=\{3,4,5,6,7\}$. Define the relation R by $a$R$b$ if and only if $a$ divides $b$.  Find R,  Dom(R), Range(R).\\
+(b) Let $A = \{1,2,3,4\}$. Define the relation R by $a$R$b$ if and only if $a\le b$.  Find, R, Dom(R), Range(R).
 }
 {
 }
 
 \twoCol{Slide 2: Example 15.6}
 {
+Example 15.6:\\
+(a) Show that the relation
+$$f = \{(1,a),(2,b),(3,a)\}$$
+defines a function from $A = \{1,2,3\}$ to $B=\{a,b,c\}$.  Find its range.\\
+(b) Show that the relation
+$$f = \{(1,a),(2,b),(3,c),(1,b)\}$$
+does not define a function from $A = \{1,2,3\}$ to $B=\{a,b,c\}$.
 }
 {
 }
 
 \twoCol{Slide 3: Example 15.8}
 {
+Example 15.8:\\
+Let $R = \{(1,y),(1,z),(3,y)\}$ be a relation from $A = \{1,2,3\}$ to $B=\{x,y,z\}$.\\
+(a) Find $R^{-1}$.\\
+(b) Compare $(R^{-1})^{-1}$ and $R$
 }
 {
 }
 
 \twoCol{Slide 4: Example 15.9}
 {
+Example 15.9:\\
+Given the following two relations from $A = \{1,2,4\}$ to $B=\{2,6,8,10\}$:
+$$aRb \text{if and only if} a\vert b$$
+$$aSb \text{if and only if} b-4=a$$
+List the elements of $R$, $S$, $R\cup S$, and $R\cap S$.
 }
 {
 }
 
 \twoCol{Slide 5: Example 15.10}
 {
+Example 15.10:\\
+Let:
+$$R = \{(1,2),(1,6),(2,4),(3,4),(3,6),(3,8)\}$$
+$$S = \{(2,u),(4,s),(4,t),(6,t),(8,u)\}$$
+Find $S\circ R$.
 }
 {
 }
 
 \twoCol{Slide 6: Problem 15.5}
 {
+Problem 15.5:\\
+Let $A=\{1,2,3\}$ and $B = \{a,b,c,d\}$.\\
+(a) Is the relation $f=\{(1,d),(2,d),(3,a)\}$ a function from $A$ to $B$? If so, find its range.\\
+(b) Is the relation $f=\{(1,a),(2,b),(2,c),(3,d)\}$ a function from $A$ to $B$? If so, find its range.
 }
 {
 }
 
 \twoCol{Slide 7: Problem 15.7}
 {
+Problem 15.7:\\
+Find the inverse relation of $R=\{(a,1),(b,5),(c,2),(d,1)\}$. Is the inverse relation a function?
 }
 {
 }
 
 \twoCol{Slide 8: Example 15.9}
 {
+Problem 15.9:\\
+Let:\\
+\begin{align*}
+A &=\{a,b,c\}\\
+B &=\{1,2\}\\
+C &=\{a,b,g\}\\
+R &=\{(a,1),(a,2),(b,2),(c,1)\}\\
+S &=\{(1,a),(2,b),(2,g)\}
+\end{align*}
+Find $S\circ R$.
 }
 {
 }
