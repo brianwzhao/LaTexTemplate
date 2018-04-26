@@ -134,7 +134,7 @@ Only redefining things so no output to show.
 {
 Example 15.5\\
 (a) Let $A=\{2,3,4\}$ and $B=\{3,4,5,6,7\}$. Define the relation R by $a$R$b$ if and only if $a$ divides $b$.  Find R,  Dom(R), Range(R).\\
-(b) Let $A = \{1,2,3,4\}$. Define the relation R by $a$R$b$ if and only if $a\le b$.  Find, R, Dom(R), Range(R).
+(b) Let $A = \{1,2,3,4\}$. Define the relation R by $a$R$b$ if and only if $a\le b$.  Find R, Dom(R), Range(R).
 }
 {
 }
@@ -166,8 +166,8 @@ Let $R = \{(1,y),(1,z),(3,y)\}$ be a relation from $A = \{1,2,3\}$ to $B=\{x,y,z
 {
 Example 15.9:\\
 Given the following two relations from $A = \{1,2,4\}$ to $B=\{2,6,8,10\}$:
-$$aRb \text{if and only if} a\vert b$$
-$$aSb \text{if and only if} b-4=a$$
+$$aRb \text{ if and only if } a\vert b$$
+$$aSb \text{ if and only if } b-4=a$$
 List the elements of $R$, $S$, $R\cup S$, and $R\cap S$.
 }
 {
