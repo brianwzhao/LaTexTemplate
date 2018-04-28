@@ -14,120 +14,308 @@
 
 \twoCol{Prependix A:a Setup}{
 =SML
-val title = "Template definitions";
 PolyML.print_depth 64;
-(* Nested parameter builder *)
-fun nas(a:'a,b:'a)(n:int):'a list list =
+datatype SetElement = NoElem
+ | Int of int
+ | String of string
+ | Set of set
+ | Product of SetElement*SetElement
+ and set = elems of SetElement list;
+fun greaterElem(x:SetElement,y:SetElement) =
+let
+  fun isEqual(x:SetElement,y:SetElement) =
+    not (greaterElem(x,y) orelse greaterElem(y,x));
+in
   let
-    fun an(first,second,input) =
-      ((map (fn a=> first::a) input)
-      @ (map(fn a=>second::a)input))
+    fun greaterSet(elems(x::xs),elems(y::ys)) =
+      if isEqual (x,y)
+=TEX
+}
+{
+=SML
+        then greaterSet(elems xs,elems ys)
+        else greaterElem(x,y)
+    | greaterSet(elems[],_) = false
+    | greaterSet(_,elems []) = true;
   in
-  if n = 1 then [[a],[b]]
-  else an (a, b, (nas(a,b)(n-1)))
-  end;
-val na = nas(true,false);
-fun uh(arr:bool*bool->bool)(a:bool list):bool
-  = arr (List.nth(a,0), List.nth(a,1));
+   (case x of
+      Int x => (
+        case y of Int y => x>y
+          | _=> false)
+    | String x => (
+        case y of Int y => true
+          | String y => x>y
+          | _ => false)
+=TEX
+}
+
+\twoCol{Prependix A:b Setup}
+{
+=SML
+    | Set x =>(
+        case y of NoElem => false
+          | Set y => greaterSet(x,y)
+          | _ => true)
+    | Product (a,b) =>(
+        case y of NoElem => false
+          | Product (c,d) =>
+              (if isEqual(a,c)
+                then greaterElem(b,d)
+                else greaterElem(a,c))
+          | _ => true)
+    | _ => true)
+  end
+end;
 =TEX
 }
 {
 =SML
-fun &&(false,_)=false | &&(true,q)=q;
-fun ||(false,q)=q | || (true,_)=true;
-fun !(false)=true | !(true)=false;
-fun xor(false,q)=q | xor(true,q)= !(q);
-fun cond(p,q) = ||(! p,q);
-val title = "Test Cases Slide A:a";
-map (uh(||))(na(2));
-map (uh(&&))(na(2));
-map (uh(xor))(na(2));
-map (uh(cond))(na(2));
-infix &&; infix ||; infix xor; infix cond;
+fun isEqual(x:SetElement,y:SetElement) =
+  not (greaterElem(x,y) orelse greaterElem(y,x));
+
+fun greaterSet(elems(x::xs),elems(y::ys)) =
+  if isEqual (x,y)
+    then greaterSet(elems xs,elems ys)
+    else greaterElem(x,y)
+ | greaterSet(elems[],_) = false
+ | greaterSet(_,elems []) = true;
 =TEX
 }
-\putfig{0.5}{0.75}{0.4}{../include/figA_a.eps}
-\btext{0.85}{0.63}{0.1}{Output of the previous functions}
 
-\twoCol{Prependix A:b SML "Proof" check}{
+\twoCol{Prependix A:c Setup}
+{
 =SML
-val title = "Slide A:c More Template";
-fun taut ([]:bool list) = true | taut(a::b) = a andalso taut(b);
-fun caseCheck(a:((bool list)->bool) list)
-  (b:(bool list)->bool)(c:bool list) =
-    if (not(b c))
-      then
-        not (taut (map (fn d:(bool list)->bool => d c) a))
-      else true;
-fun isValid(prop:(bool list->bool) list)(conc:(bool list->bool))
-  = taut(map (caseCheck prop conc) (na 5));
+fun setArray(elems x) = x;
+
+fun merge(elems(x::xs),elems(y::ys)) =
+  if isEqual(x,y)
+    then elems(x::(setArray(merge(elems xs,elems ys))))
+    else if greaterElem(x,y)
+      then elems(y::(setArray(merge(elems(x::xs),elems ys))))
+      else elems(x::(setArray(merge(elems xs,elems(y::ys)))))
+ | merge(elems [],y) = y
+ | merge(x,elems []) = x;
 =TEX
 }
 {
 =SML
-fun p(a:bool list) = List.nth(a,0);
-fun q(a:bool list) = List.nth(a,1);
-fun r(a:bool list) = List.nth(a,2);
-fun s(a:bool list) = List.nth(a,3);
-fun t(a:bool list) = List.nth(a,4);
-val title = "Test Cases Slide A:b";
-fun s1(a) = ! (p a) && (q a);
-fun s2(a) = (r a)|| (p a);
-isValid [s1,s2] r;
-isValid [s1,s2] p;
-=TEX
-}
-\putfig{0.05}{0.69}{0.4}{../include/figA_b.eps}
-\btext{0.5}{0.7}{0.2}{With the assumptions $\sim p \land q $ and $r \lor p$ we see that $r$ is a valid conclusion and $p$ is not.}
+fun inOrder(x) = case x of elems [] => true
+ | elems(x::xs::xss)=> greaterElem(xs,x)
+    andalso (inOrder(elems(xs::xss)))
+ | elems(x::[])=>true;
 
-\twoCol{Prependix B: Proof Power Predefinitions}
-{
-=DUMP lab.pp
-val title = "Template Definition";
-val subsection = "Distribution";
-val dist_²_±_l = prove_rule []
-  ¬µ a b c· c ² (a ± b) ¤ (c²a) ± (c²b) ®;
-val dist_²_±_r = prove_rule []
-  ¬µ a b c· (a ± b) ² c ¤ (a²c) ± (b²c) ®;
-val dist_²_±_l_rev = prove_rule []
-  ¬µ a b c· (c²a) ± (c²b) ¤ c ² (a ± b) ®;
-val dist_²_±_r_rev = prove_rule []
-  ¬µ a b c· (a²c) ± (b²c) ¤ (a ± b) ² c ®;
-val dist_³_² = prove_rule []
-  ¬µ a b·  ³ (a ² b) ¤ ³ a ± ³ b ®;
-val dist_³_²_rev = prove_rule []
-  ¬µ a b·  ³ a ± ³ b ¤ ³ (a ² b) ®;
-=TEX
-}
-{
-=DUMPMORE lab.pp
-val dist_³_± = prove_rule []
-  ¬µ a b·  ³ (a ± b) ¤ ³ a ² ³ b ®;
-val dist_³_±_rev = prove_rule []
-  ¬µ a b·  ³ a ² ³ b ¤ ³ (a ± b) ®;
-val subsection = "Conversion";
-val ´_thm = ´_thm;
-val ´_thm_rev = prove_rule []
-  ¬µ a b·  ³a ² b ¤ a ´ b ®;
+fun sort(elems(x::xs)) = (case x of
+  Set x =>merge(elems[Set(sort x)],sort(elems xs))
+ | _ => merge(elems [x],sort(elems xs)))
+ | sort(elems[]) = elems [];
 =TEX
 }
 
-\twoCol{Prependix B:b Proof Power Predefinitions}
+\twoCol{Prependix A:d Pretty Print}
 {
-=DUMPMORE lab.pp
-val premise = asm_rule;
-val modus_ponens = ´_elim;
-val modus_tollens = modus_tollens_rule;
-val disjunctive_addition = ²_right_intro;
-val conjunctive_addition = ±_intro;
-val conjunctive_simplification = ±_right_elim;
-val disjunctive_syllogism = ²_cancel_rule;
-val hypothetical_syllogism = ´_trans_rule;
-val double_negation = ³_³_elim;
+=SML
+fun toString(elems(x::xs)) =
+  let
+    fun toStr(x) = case x of
+       Int x => Int.toString x
+     | String x => x
+     | Set x => toString(x)
+     | Product (a,b) => "("^
+        (toStr a)^", "^(toStr b)^")"
+     | _ => "";
+    val next = toString(elems xs);
 =TEX
 }
 {
-Only redefining things so no output to show.
+=SML
+  in
+    if xs = []
+      then "{" ^ (toStr(x)) ^
+        (substring(next,1,(size next)-1))
+      else "{" ^ (toStr(x)) ^ ", " ^
+        (substring(next,1,(size next)-1))
+  end
+ | toString(elems []) = "{}";
+=TEX
+}
+
+\twoCol{Prependix A:e QOL Functions}
+{
+=SML
+fun intSet(x::xs) =
+      merge(elems [Int x], intSet xs)
+ | intSet([]) = elems [];
+fun stringSet(x::xs) =
+      merge(elems [String x],stringSet xs)
+ | stringSet([]) = elems [];
+=TEX
+}
+{
+=SML
+fun cardinality(elems (x::xs)) =
+  1+cardinality(elems xs)
+ | cardinality(elems []) = 0;
+=TEX
+}
+
+
+
+\twoCol{Prependix B:a Operations}
+{
+=SML
+fun elementOf(x, elems(y::ys)) =
+  isEqual(x,y) orelse elementOf(x,elems ys)
+ | elementOf(x,elems []) = false;
+fun subsetEq(elems(x::xs),elems(y::ys)) =
+  if isEqual(x,y)
+    then subsetEq(elems xs,elems ys)
+    else if greaterElem(x,y)
+      then subsetEq(elems(x::xs),elems ys)
+      else false
+ | subsetEq(elems [],_) = true
+ | subsetEq(_,_)=false;
+fun subsetProp(x,y) = subsetEq(x,y) andalso
+  not (subsetEq(y,x));
+fun setEqual(x,y) = subsetEq(x,y) andalso
+  subsetEq(y,x);
+=TEX
+}
+{
+=SML
+fun intersect(elems(x::xs),elems(y::ys)) =
+  if isEqual(x,y)
+    then elems(x::(setArray(intersect(elems xs,elems ys))))
+    else if greaterElem(x,y)
+      then intersect(elems(x::xs),elems ys)
+      else intersect(elems xs,elems(y::ys))
+ | intersect(_,_) = elems [];
+fun union(x,y) =
+  merge(x,y);
+=TEX
+}
+
+\twoCol{Prependix B:b Operations}
+{
+=SML
+fun setMinus(elems(x::xs),elems(y::ys)) =
+  if greaterElem(x,y)
+    then setMinus(elems(x::xs),elems ys)
+    else if greaterElem(y,x)
+      then elems(x::(setArray
+        (setMinus(elems xs,elems(y::ys)))))
+      else setMinus(elems xs,elems ys)
+ | setMinus(x,_) = x;
+fun symDiff(elems(x::xs),elems(y::ys)) =
+  if greaterElem(x,y)
+    then elems(y::(setArray(symDiff(elems(x::xs),elems ys))))
+    else if greaterElem(y,x)
+      then elems(x::(setArray(symDiff(elems xs,elems(y::ys)))))
+      else symDiff(elems xs,elems ys)
+ | symDiff(elems [],y) = y | symDiff(x,elems []) = x;
+=TEX
+}
+{
+=SML
+fun powSet(elems(x::xss)) =
+  let
+    fun again(a,elems(b::bs)) = (case b of
+      Set(elems b) =>
+        elems((Set(elems (a::b)))::
+          (setArray(again(a,elems bs))))
+       | _ => again(a,elems bs))
+     | again(a,elems []) = elems [];
+  in
+    sort(merge(
+      powSet(elems xss),
+      again(x,powSet(elems xss))))
+end
+   | powSet(elems []) = elems[Set(elems [])];
+=TEX
+}
+
+\twoCol{Prependix B:c Operations}
+{
+=SML
+fun cartProd(elems(x::xs),elems(y::ys)) =
+  elems((Product(x,y))::
+    (setArray(merge(
+      cartProd(elems(x::xs),elems ys),
+      (cartProd(elems xs,elems(y::ys)))))))
+ | cartProd(_,_) = elems [];
+=TEX
+}
+
+\twoCol{Prependix C:a Relation Operation}
+{
+=SML
+fun relation(domain:set)(range:set)
+ (rule:SetElement->bool) = elems(List.filter
+  rule
+  (setArray(cartProd(domain,range))));
+fun inverse(elems((Product(x,y))::xs)) =
+  merge(elems[Product(y,x)],inverse(elems xs))
+ | inverse(_) = elems[];
+fun domain(elems((Product(x,y))::xs)) =
+  merge(elems[x],domain(elems xs))
+ | domain(_) = elems [];
+fun range(x) = domain(inverse x);
+=TEX
+}
+{
+=SML
+fun isFunction d (x) =
+let
+  fun uniqueX(elems((Product(a,b))::(Product(c,d))::x)) =
+      not(isEqual(a,c)) andalso
+      uniqueX(elems(Product(c,d)::x))
+   | uniqueX(elems[Product(a,b)]) = true
+   | uniqueX(_) = false;
+in
+  (setEqual(d, domain x)) andalso uniqueX(x)
+end;
+=TEX
+}
+
+\twoCol{Prependix C:b Relation Operations}
+{
+=SML
+fun compose (elems(x::xs)) y =
+let
+  fun single (Product(a,b))
+   (elems((Product(c,d)::ys))) =
+    if b=c then
+    merge(elems[Product(a,d)],
+      single(Product(a,b))(elems ys))
+    else
+      single(Product(a,b))(elems ys)
+   | single(_)(_) = elems[];
+in
+  merge(single x y,compose (elems xs) y)
+end
+ | compose(_)(_) = elems[];
+=TEX
+}
+{
+}
+
+\twoCol{Prependix Z:a Test}
+{
+=SML
+val a = intSet [1,2,3,4,5,6];
+val b = elems[Int 1,Int 3,String "Bye"];
+val c = intSet[2,6];
+toString a;
+=TEX
+}
+{
+=SML
+fun greater(Product(Int a,Int b)) = a <= 2*b
+ | greater(_) = false;
+val d = relation a b greater;
+isFunction a d;
+relation c b greater;
+toString(compose it d);
+=TEX
 }
 
 \twoCol{Slide 1: Example 15.5}
